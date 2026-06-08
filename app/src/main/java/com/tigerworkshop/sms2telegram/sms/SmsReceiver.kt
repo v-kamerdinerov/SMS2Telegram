@@ -117,7 +117,7 @@ class SmsReceiver : BroadcastReceiver() {
         }
 
         val simSlotIndex = intent.extras?.getInt("android.telephony.extra.SLOT_INDEX", -1) ?: -1
-        val subscriptionId = messages.firstOrNull()?.getSubscriptionId() ?: -1
+        val subscriptionId = intent.extras?.getInt("android.telephony.extra.SUBSCRIPTION_INDEX", -1) ?: -1
         val simCarrierName = getSimCarrierName(appContext, repository, subscriptionId, simSlotIndex)
 
         val sender = messages.firstOrNull()?.displayOriginatingAddress ?: "Unknown"
