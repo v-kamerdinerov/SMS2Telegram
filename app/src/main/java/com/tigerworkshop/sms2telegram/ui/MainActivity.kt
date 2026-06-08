@@ -384,6 +384,7 @@ class MainActivity : AppCompatActivity() {
 
                 val inputLayout = TextInputLayout(this).apply {
                     hint = getString(R.string.custom_sim_name_hint)
+                    boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_FILLED
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
