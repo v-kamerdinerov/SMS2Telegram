@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.telephony.SubscriptionManager
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -29,8 +30,7 @@ import com.tigerworkshop.sms2telegram.data.TelegramChatInfo
 import com.tigerworkshop.sms2telegram.data.TelegramDeliveryWorker
 import com.tigerworkshop.sms2telegram.data.TelegramForwarder
 import com.tigerworkshop.sms2telegram.databinding.ActivityMainBinding
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -382,9 +382,11 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                val inputLayout = TextInputLayout(this).apply {
+                val editText = EditText(this).apply {
                     hint = getString(R.string.custom_sim_name_hint)
-                    boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_FILLED
+                    setText(settingsRepository.getCustomSimName(subscriptionId) ?: "")
+                    maxLines = 1
+                    filters = arrayOf(android.text.InputFilter.LengthFilter(16))
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -393,20 +395,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                val editText = TextInputEditText(this).apply {
-                    setText(settingsRepository.getCustomSimName(subscriptionId) ?: "")
-                    maxLines = 1
-                    filters = arrayOf(android.text.InputFilter.LengthFilter(16))
-                }
-
                 editText.doAfterTextChanged { text ->
                     val trimmed = text?.toString()?.trim()
                     settingsRepository.setCustomSimName(subscriptionId, trimmed)
                 }
 
-                inputLayout.addView(editText)
                 binding.containerCustomSimNames.addView(label)
-                binding.containerCustomSimNames.addView(inputLayout)
+                binding.containerCustomSimNames.addView(editText)
             }
         } catch (e: Exception) {
             // Silently ignore errors reading subscription info
