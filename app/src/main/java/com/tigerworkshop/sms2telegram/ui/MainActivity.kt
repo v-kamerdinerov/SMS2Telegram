@@ -267,7 +267,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Step 3: add custom SIM names switch
+        // Step 3.1: add custom SIM names switch
         binding.switchAddCustomSimNames.setOnCheckedChangeListener { view, isChecked ->
             if (!view.isPressed) return@setOnCheckedChangeListener
             settingsRepository.setAddCustomSimNamesEnabled(isChecked)
